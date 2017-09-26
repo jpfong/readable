@@ -1,4 +1,4 @@
-const url = "localhost:3001"
+const url = "http://localhost:3001"
 
 const headers = {
   headers: { 'Authorization': 'whatever-you-want' },
