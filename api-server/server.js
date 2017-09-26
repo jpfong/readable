@@ -11,8 +11,13 @@ const comments = require('./comments')
 const app = express()
 
 app.use(express.static('public'))
-app.use(cors())
 
+var corsOptions = {
+  origin: ['http://localhost:3000'],
+  credentials: true
+}
+
+app.use(cors(corsOptions))
 
 app.get('/', (req, res) => {
   const help = `
