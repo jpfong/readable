@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { fetchCategoryPosts } from '../actions/posts'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 class Category extends Component {
   componentDidMount() {
@@ -8,9 +9,19 @@ class Category extends Component {
   }
 
   render() {
+    const posts = this.props.posts
+
     return (
       <div>
-        {this.props.match.params.category}
+        <h1>{this.props.match.params.category}</h1>
+        Posts
+        <ul>
+          {posts.map((item) => (
+            <li key={item.id}>
+              <Link to={'/'+ item.category + '/' + item.id }>{item.title}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
     )
   }

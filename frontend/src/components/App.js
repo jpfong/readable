@@ -3,6 +3,7 @@ import '../App.css';
 import { Route } from 'react-router-dom'
 import RootPage from './RootPage'
 import Category from './Category'
+import Post from './Post'
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
           <RootPage/>
         )}/>
         <Route exact path="/:category" component={Category}/>
+        <Route exact path="/:category/:postId" component={Post}/>
       </div>
     )
   }
