@@ -1,20 +1,60 @@
 import React, {Component} from 'react'
-// import { fetchCategoryPosts } from '../actions/posts'
-// import { connect } from 'react-redux'
+import { fetchPost } from '../actions/post'
+import { connect } from 'react-redux'
+import Loading from 'react-loading'
 
 class Post extends Component {
+  state = {
+    loadingPost: true
+  }
   componentDidMount() {
-    console.log('post', this.props.match.params.postId)
+    this.setState(() => ({ loadingPost: true }))
+    this.props.getPost(this.props.match.params.postId).then(() => {
+      this.setState(() => ({ loadingPost: false }))
+    })
   }
 
   render() {
-    const postId = this.props.match.params.postId
+    const post = this.props.post
+    const { loadingPost } = this.state
     return (
       <div>
-        { postId }
+        { loadingPost ? <Loading delay={200} type='spin' color='#222' className='loading' /> :
+          <ul>
+            <li>
+              Title: { post.title }
+            </li>
+            <li>
+              Author: { post.author }
+            </li>
+            <li>
+              Body: { post.body }
+            </li>
+            <li>
+              Number of comments: 0
+            </li>
+            <li>
+              Current score: {post.voteScore}
+            </li>
+        </ul> }
       </div>
     )
   }
 }
 
-export default Post
+function mapStateToProps ({post}) {
+  return {
+    post
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    getPost: (postId) => dispatch(fetchPost(postId))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Post)

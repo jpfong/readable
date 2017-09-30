@@ -6,8 +6,13 @@ import {
 
 import {
   RECEIVE_POSTS,
-  RECEIVE_CATEGORY_POSTS
+  RECEIVE_CATEGORY_POSTS,
+
 } from '../actions/posts'
+
+import {
+  RECEIVE_POST
+} from '../actions/post'
 
 function categories (state = [], action) {
   switch (action.type) {
@@ -18,7 +23,7 @@ function categories (state = [], action) {
   }
 }
 
-function posts (state = [], action ) {
+function posts (state = [], action) {
   switch (action.type) {
     case RECEIVE_POSTS :
       return action.posts
@@ -29,7 +34,18 @@ function posts (state = [], action ) {
   }
 }
 
+function post (state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_POST :
+      console.log('action.post in reducers', action)
+      return action.post
+    default :
+      return state
+  }
+}
+
 export default combineReducers({
   categories,
-  posts
+  posts,
+  post
 })
