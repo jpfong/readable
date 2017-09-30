@@ -21,3 +21,7 @@ export const getCategoryPosts = (category) =>
 export const getPost = (postId) =>
   fetch(`${url}/posts/${postId}`, headers)
     .then(res => res.json())
+
+export const getPostComments = (postId) =>
+  fetch(`${url}/posts/${postId}/comments`, headers)
+    .then(res => res.json())

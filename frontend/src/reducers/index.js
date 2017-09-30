@@ -14,6 +14,10 @@ import {
   RECEIVE_POST
 } from '../actions/post'
 
+import {
+  RECEIVE_COMMENTS
+} from '../actions/comments'
+
 function categories (state = [], action) {
   switch (action.type) {
     case RECEIVE_CATEGORIES :
@@ -37,8 +41,16 @@ function posts (state = [], action) {
 function post (state = {}, action) {
   switch (action.type) {
     case RECEIVE_POST :
-      console.log('action.post in reducers', action)
       return action.post
+    default :
+      return state
+  }
+}
+
+function comments (state = [], action) {
+  switch (action.type) {
+    case RECEIVE_COMMENTS :
+      return action.comments
     default :
       return state
   }
@@ -47,5 +59,6 @@ function post (state = {}, action) {
 export default combineReducers({
   categories,
   posts,
-  post
+  post,
+  comments
 })
