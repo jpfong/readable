@@ -6,8 +6,7 @@ import {
 
 import {
   RECEIVE_POSTS,
-  RECEIVE_CATEGORY_POSTS,
-
+  RECEIVE_CATEGORY_POSTS
 } from '../actions/posts'
 
 import {
@@ -15,7 +14,8 @@ import {
 } from '../actions/post'
 
 import {
-  RECEIVE_COMMENTS
+  RECEIVE_COMMENTS,
+  UPDATE_COMMENTS
 } from '../actions/comments'
 
 function categories (state = [], action) {
@@ -50,6 +50,9 @@ function post (state = {}, action) {
 function comments (state = [], action) {
   switch (action.type) {
     case RECEIVE_COMMENTS :
+      return action.comments
+    case UPDATE_COMMENTS :
+      console.log('action', action)
       return action.comments
     default :
       return state

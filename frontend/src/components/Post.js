@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { fetchPost } from '../actions/post'
-import { fetchComments } from '../actions/comments'
+import { fetchComments, updateComments } from '../actions/comments'
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
 
@@ -16,6 +16,10 @@ class Post extends Component {
         this.setState(() => ({ loadingPost: false }))
       })
     })
+  }
+
+  upvoteComment(comment) {
+    this.props.updateComment(comment, 'upVote')
   }
 
   render() {
@@ -37,7 +41,8 @@ class Post extends Component {
               <ul>
                 {comments.map((comment) => (
                   <li key={comment.id}>
-                    {comment.body}
+                    {comment.body}, author: {comment.author}, current score: {comment.voteScore}
+                      &nbsp;<button onClick={() => this.upvoteComment(comment)}>Upvote</button>
                   </li>
                 ))}
               </ul>
@@ -64,7 +69,8 @@ function mapStateToProps ({post, comments}) {
 function mapDispatchToProps (dispatch) {
   return {
     getPost: (postId) => dispatch(fetchPost(postId)),
-    getPostComments: (postId) => dispatch(fetchComments(postId))
+    getPostComments: (postId) => dispatch(fetchComments(postId)),
+    updateComment: (comment, options) => dispatch(updateComments(comment, options))
   }
 }
 

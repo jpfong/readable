@@ -25,3 +25,10 @@ export const getPost = (postId) =>
 export const getPostComments = (postId) =>
   fetch(`${url}/posts/${postId}/comments`, headers)
     .then(res => res.json())
+
+export const updateComment = (comment, option) =>
+  fetch(`${url}/comments/${comment.id}`, {
+    method: 'POST',
+    headers: { 'Authorization': 'whatever-you-want' },
+    body: option
+    }).then(res => res.json())
