@@ -6,7 +6,8 @@ import {
 
 import {
   RECEIVE_POSTS,
-  RECEIVE_CATEGORY_POSTS
+  RECEIVE_CATEGORY_POSTS,
+  DELETE_POST
 } from '../actions/posts'
 
 import {
@@ -34,6 +35,8 @@ function posts (state = [], action) {
       return action.posts
     case RECEIVE_CATEGORY_POSTS :
       return action.posts
+    case DELETE_POST:
+      return state.filter(post => post.id !== action.post.id)
     default :
       return state
   }
@@ -55,7 +58,7 @@ function comments (state = [], action) {
     case UPDATE_COMMENTS :
       return action.comments
     case DELETE_COMMENT:
-      return state.filter(comment => comment.id != action.comment.id)
+      return state.filter(comment => comment.id !== action.comment.id)
     default :
       return state
   }

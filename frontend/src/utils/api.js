@@ -39,3 +39,9 @@ export const deleteComment = (commentId) =>
     headers: { 'Authorization': 'whatever-you-want' }
   }).then(res => res.json())
 
+export const deletePost = (postId) =>
+  fetch(`${url}/posts/${postId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': 'whatever-you-want' }
+  }).then(res => res.json())
+

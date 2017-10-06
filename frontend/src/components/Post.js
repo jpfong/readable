@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { fetchPost } from '../actions/post'
+import { deletePost } from '../actions/posts'
 import { fetchComments, updateComments, doDeleteComment } from '../actions/comments'
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
@@ -23,6 +24,13 @@ class Post extends Component {
 
   deleteComment(comment) {
     this.props.deleteComment(comment)
+  }
+
+  deletePost(postId) {
+    this.props.deletePost(postId).then(() => {
+      const {history} = this.props
+      history.push('/')
+    })
   }
 
   render() {
@@ -58,6 +66,7 @@ class Post extends Component {
               Current score: {post.voteScore}
             </li>
         </ul> }
+        <button onClick={() => this.deletePost(post.id)}>Delete</button>
       </div>
     )
   }
@@ -75,7 +84,8 @@ function mapDispatchToProps (dispatch) {
     getPost: (postId) => dispatch(fetchPost(postId)),
     getPostComments: (postId) => dispatch(fetchComments(postId)),
     updateComment: (comment, options) => dispatch(updateComments(comment, options)),
-    deleteComment: (comment) => dispatch(doDeleteComment(comment))
+    deleteComment: (comment) => dispatch(doDeleteComment(comment)),
+    deletePost: (postId) => dispatch(deletePost(postId))
   }
 }
 
