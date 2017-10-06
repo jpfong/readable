@@ -32,3 +32,10 @@ export const updateComment = (comment, option) =>
     headers: { 'Authorization': 'whatever-you-want' },
     body: option
     }).then(res => res.json())
+
+export const deleteComment = (commentId) =>
+  fetch(`${url}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': 'whatever-you-want' }
+  }).then(res => res.json())
+

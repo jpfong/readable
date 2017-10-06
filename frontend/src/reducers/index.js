@@ -15,7 +15,8 @@ import {
 
 import {
   RECEIVE_COMMENTS,
-  UPDATE_COMMENTS
+  UPDATE_COMMENTS,
+  DELETE_COMMENT
 } from '../actions/comments'
 
 function categories (state = [], action) {
@@ -52,8 +53,9 @@ function comments (state = [], action) {
     case RECEIVE_COMMENTS :
       return action.comments
     case UPDATE_COMMENTS :
-      console.log('action', action)
       return action.comments
+    case DELETE_COMMENT:
+      return state.filter(comment => comment.id != action.comment.id)
     default :
       return state
   }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { fetchPost } from '../actions/post'
-import { fetchComments, updateComments } from '../actions/comments'
+import { fetchComments, updateComments, doDeleteComment } from '../actions/comments'
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
 
@@ -12,7 +12,6 @@ class Post extends Component {
     this.setState(() => ({ loadingPost: true }))
     this.props.getPost(this.props.match.params.postId).then(() => {
       this.props.getPostComments(this.props.match.params.postId).then(() => {
-        console.log(this.props.comments)
         this.setState(() => ({ loadingPost: false }))
       })
     })
@@ -20,6 +19,10 @@ class Post extends Component {
 
   upvoteComment(comment) {
     this.props.updateComment(comment, 'upVote')
+  }
+
+  deleteComment(comment) {
+    this.props.deleteComment(comment)
   }
 
   render() {
@@ -43,6 +46,7 @@ class Post extends Component {
                   <li key={comment.id}>
                     {comment.body}, author: {comment.author}, current score: {comment.voteScore}
                       &nbsp;<button onClick={() => this.upvoteComment(comment)}>Upvote</button>
+                      &nbsp;<button onClick={() => this.deleteComment(comment)}>Delete</button>
                   </li>
                 ))}
               </ul>
@@ -61,8 +65,8 @@ class Post extends Component {
 
 function mapStateToProps ({post, comments}) {
   return {
-    post, comments
-
+    post,
+    comments
   }
 }
 
@@ -70,7 +74,8 @@ function mapDispatchToProps (dispatch) {
   return {
     getPost: (postId) => dispatch(fetchPost(postId)),
     getPostComments: (postId) => dispatch(fetchComments(postId)),
-    updateComment: (comment, options) => dispatch(updateComments(comment, options))
+    updateComment: (comment, options) => dispatch(updateComments(comment, options)),
+    deleteComment: (comment) => dispatch(doDeleteComment(comment))
   }
 }
 
