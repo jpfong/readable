@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { fetchCategories } from '../actions/categories'
-import { fetchPosts } from '../actions/posts'
+import { fetchPosts, sortPosts } from '../actions/posts'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -8,6 +8,10 @@ class RootPage extends Component {
   componentDidMount() {
     this.props.getCategories()
     this.props.getPosts()
+  }
+
+  sortPost(sort) {
+    this.props.sortPost(sort)
   }
 
   render() {
@@ -27,10 +31,11 @@ class RootPage extends Component {
         <ul>
           {posts.map((item) => (
             <li key={item.id}>
-              {item.title}
+              {item.title}, timestamp: {item.timestamp}
             </li>
           ))}
         </ul>
+       <button onClick={() => this.sortPost('date')}>Sort by date</button>
       </div>)
   }
 }
@@ -45,7 +50,8 @@ function mapStateToProps ({categories, posts}) {
 function mapDispatchToProps (dispatch) {
   return {
     getCategories: () => dispatch(fetchCategories()),
-    getPosts: () => dispatch(fetchPosts())
+    getPosts: () => dispatch(fetchPosts()),
+    sortPost: (sort) => dispatch(sortPosts(sort))
   }
 }
 

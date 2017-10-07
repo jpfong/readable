@@ -3,6 +3,7 @@ import * as api from '../utils/api.js'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_CATEGORY_POSTS = 'RECEIVE_CATEGORY_POSTS'
 export const DELETE_POST = 'DELETE_POST'
+export const SORT_POSTS = 'SORT_POSTS'
 
 export const receivePosts = (posts) => ({
   type: RECEIVE_POSTS,
@@ -33,4 +34,16 @@ export const deletedPost = (deletedPost) => ({
 
 export const deletePost = (postId) => dispatch => (
   api.deletePost(postId).then(post => dispatch(deletedPost(post)))
+)
+
+export const sortedPosts = (posts, sort) => ({
+  type: SORT_POSTS,
+  posts,
+  sort
+})
+
+export const sortPosts = (sort) => dispatch => (
+  api
+    .getPosts()
+    .then(posts => dispatch(sortedPosts(posts, sort)))
 )

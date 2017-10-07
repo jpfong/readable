@@ -7,7 +7,8 @@ import {
 import {
   RECEIVE_POSTS,
   RECEIVE_CATEGORY_POSTS,
-  DELETE_POST
+  DELETE_POST,
+  SORT_POSTS
 } from '../actions/posts'
 
 import {
@@ -31,12 +32,14 @@ function categories (state = [], action) {
 
 function posts (state = [], action) {
   switch (action.type) {
-    case RECEIVE_POSTS :
+    case RECEIVE_POSTS:
       return action.posts
-    case RECEIVE_CATEGORY_POSTS :
+    case RECEIVE_CATEGORY_POSTS:
       return action.posts
     case DELETE_POST:
       return state.filter(post => post.id !== action.post.id)
+    case SORT_POSTS:
+      return action.posts.sort((a, b) => b.timestamp - a.timestamp)
     default :
       return state
   }
