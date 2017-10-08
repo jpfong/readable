@@ -35,7 +35,7 @@ class RootPage extends Component {
         <ul>
           {posts.map((item) => (
             <li key={item.id}>
-              {item.title}, timestamp: {item.timestamp}, score: {item.voteScore}
+              <Link to={'/'+ item.category + '/' + item.id }>{item.title}</Link>, author: {item.author}, timestamp: {item.timestamp}, score: {item.voteScore}
               <button onClick={() => this.deletePost(item.id)}>Delete</button>
             </li>
           ))}
