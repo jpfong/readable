@@ -39,7 +39,11 @@ function posts (state = [], action) {
     case DELETE_POST:
       return state.filter(post => post.id !== action.post.id)
     case SORT_POSTS:
-      return action.posts.sort((a, b) => b.timestamp - a.timestamp)
+      if (action.sort === 'date') {
+        return action.posts.sort((a, b) => b.timestamp - a.timestamp)
+      }
+      // score
+      return action.posts.sort((a, b) => a.voteScore - b.voteScore)
     default :
       return state
   }

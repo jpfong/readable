@@ -31,11 +31,12 @@ class RootPage extends Component {
         <ul>
           {posts.map((item) => (
             <li key={item.id}>
-              {item.title}, timestamp: {item.timestamp}
+              {item.title}, timestamp: {item.timestamp}, score: {item.voteScore}
             </li>
           ))}
         </ul>
-       <button onClick={() => this.sortPost('date')}>Sort by date</button>
+        <button onClick={() => this.sortPost('date')}>Sort by date</button>
+        <button onClick={() => this.sortPost('score')}>Sort by score</button>
       </div>)
   }
 }
