@@ -60,7 +60,7 @@ class Post extends Component {
               </ul>
             </li>
             <li>
-              Number of comments: 0
+              Number of comments: {comments.length}
             </li>
             <li>
               Current score: {post.voteScore}
