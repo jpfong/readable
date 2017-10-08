@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { fetchCategories } from '../actions/categories'
-import { fetchPosts, sortPosts } from '../actions/posts'
+import { fetchPosts, sortPosts, deletePost } from '../actions/posts'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -12,6 +12,10 @@ class RootPage extends Component {
 
   sortPost(sort) {
     this.props.sortPost(sort)
+  }
+
+  deletePost(postId) {
+    this.props.deletePost(postId)
   }
 
   render() {
@@ -32,6 +36,7 @@ class RootPage extends Component {
           {posts.map((item) => (
             <li key={item.id}>
               {item.title}, timestamp: {item.timestamp}, score: {item.voteScore}
+              <button onClick={() => this.deletePost(item.id)}>Delete</button>
             </li>
           ))}
         </ul>
@@ -52,7 +57,8 @@ function mapDispatchToProps (dispatch) {
   return {
     getCategories: () => dispatch(fetchCategories()),
     getPosts: () => dispatch(fetchPosts()),
-    sortPost: (sort) => dispatch(sortPosts(sort))
+    sortPost: (sort) => dispatch(sortPosts(sort)),
+    deletePost: (postId) => dispatch(deletePost(postId))
   }
 }
 

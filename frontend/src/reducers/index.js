@@ -37,7 +37,7 @@ function posts (state = [], action) {
     case RECEIVE_CATEGORY_POSTS:
       return action.posts
     case DELETE_POST:
-      return state.filter(post => post.id !== action.post.id)
+      return state.filter(post => post.id !== action.deletedPost.id)
     case SORT_POSTS:
       if (action.sort === 'date') {
         return action.posts.sort((a, b) => b.timestamp - a.timestamp)
