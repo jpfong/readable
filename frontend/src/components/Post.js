@@ -23,6 +23,10 @@ class Post extends Component {
     this.props.updateComment(comment, { option: 'upVote'})
   }
 
+  downVoteComment(comment) {
+    this.props.updateComment(comment, { option: 'downVote'})
+  }
+
   deleteComment(comment) {
     this.props.deleteComment(comment)
   }
@@ -55,6 +59,7 @@ class Post extends Component {
                   <li key={comment.id}>
                     {comment.body}, author: {comment.author}, current score: {comment.voteScore}
                       &nbsp;<button onClick={() => this.upvoteComment(comment)}>Upvote</button>
+                      &nbsp;<button onClick={() => this.downVoteComment(comment)}>Downvote</button>
                       &nbsp;<button onClick={() => this.deleteComment(comment)}>Delete</button>
                   </li>
                 ))}
