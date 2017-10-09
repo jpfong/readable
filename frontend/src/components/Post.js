@@ -4,6 +4,7 @@ import { deletePost } from '../actions/posts'
 import { fetchComments, updateComments, doDeleteComment } from '../actions/comments'
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
+import CommentForm from './CommentForm'
 
 class Post extends Component {
   state = {
@@ -67,6 +68,7 @@ class Post extends Component {
             </li>
         </ul> }
         <button onClick={() => this.deletePost(post.id)}>Delete</button>
+        <CommentForm parentId={post.id}></CommentForm>
       </div>
     )
   }

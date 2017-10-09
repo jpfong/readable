@@ -5,10 +5,17 @@ const headers = {
   credentials: 'include'
 }
 
+const headers2 = {
+  'Accept': 'application/json',
+  'Authorization': 'whatever-you-want'
+}
+
 export const getCategories = () =>
-  fetch(`${url}/categories`, headers)
-    .then(res => res.json())
-    .then(data => data.categories)
+  fetch(`${url}/categories`, {
+    headers: {
+      ...headers2
+    }
+  }).then(res => res.json()).then(data => data.categories)
 
 export const getPosts = () =>
   fetch(`${url}/posts`, headers)
@@ -45,3 +52,12 @@ export const deletePost = (postId) =>
     headers: { 'Authorization': 'whatever-you-want' }
   }).then(res => res.json())
 
+export const createComment = (data) =>
+  fetch(`${url}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers2,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(res => res.json())
