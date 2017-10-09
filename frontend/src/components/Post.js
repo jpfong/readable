@@ -20,7 +20,7 @@ class Post extends Component {
   }
 
   upvoteComment(comment) {
-    this.props.updateComment(comment, 'upVote')
+    this.props.updateComment(comment, { option: 'upVote'})
   }
 
   deleteComment(comment) {

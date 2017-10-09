@@ -13,9 +13,12 @@ class CommentForm extends Component {
       values.id = UUID.v4()
       values.timestamp = new Date().getTime()
       values.parentId = this.props.parentId
-      this.props.createComment(values).then(() => {
+      this.props.createComment(values).then((comment) => {
+        console.log('ssss comment', comment)
         values.body = ''
         values.author = ''
+      }).catch((err) => {
+        console.error(err)
       })
     }
   }
@@ -28,8 +31,7 @@ class CommentForm extends Component {
           <input type="text" name="author" placeholder="Author"/>
           <button>Add Comment</button>
         </div>
-      </form>
-    )
+      </form>)
   }
 }
 

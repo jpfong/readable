@@ -36,9 +36,12 @@ export const getPostComments = (postId) =>
 export const updateComment = (comment, option) =>
   fetch(`${url}/comments/${comment.id}`, {
     method: 'POST',
-    headers: { 'Authorization': 'whatever-you-want' },
-    body: option
-    }).then(res => res.json())
+    headers: {
+      ...headers2,
+     'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(option)
+  }).then(res => res.json())
 
 export const deleteComment = (commentId) =>
   fetch(`${url}/comments/${commentId}`, {

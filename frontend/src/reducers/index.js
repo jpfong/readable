@@ -69,8 +69,7 @@ function comments (state = [], action) {
     case DELETE_COMMENT:
       return state.filter(comment => comment.id !== action.comment.id)
     case ADD_COMMENT:
-      // return [...state, action.comment]
-      return action.comment
+      return [...state, action.comment]
     default :
       return state
   }
