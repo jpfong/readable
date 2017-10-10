@@ -18,8 +18,11 @@ export const getCategories = () =>
   }).then(res => res.json()).then(data => data.categories)
 
 export const getPosts = () =>
-  fetch(`${url}/posts`, headers)
-    .then(res => res.json())
+  fetch(`${url}/posts`, {
+    headers: {
+      ...headers2
+    }
+  }).then(res => res.json())
 
 export const getCategoryPosts = (category) =>
   fetch(`${url}/${category}/posts`, headers)
@@ -63,4 +66,14 @@ export const createComment = (data) =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
+  }).then(res => res.json())
+
+export const votePost = (postId) =>
+  fetch(`${url}/posts/${postId}`, {
+    method: 'POST',
+    headers: {
+      ...headers2,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option: 'upVote'})
   }).then(res => res.json())

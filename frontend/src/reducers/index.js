@@ -8,7 +8,8 @@ import {
   RECEIVE_POSTS,
   RECEIVE_CATEGORY_POSTS,
   DELETE_POST,
-  SORT_POSTS
+  SORT_POSTS,
+  VOTE_POST
 } from '../actions/posts'
 
 import {
@@ -45,6 +46,9 @@ function posts (state = [], action) {
       }
       // score
       return action.posts.sort((a, b) => a.voteScore - b.voteScore)
+    case VOTE_POST:
+      console.log('action', action)
+      return action.posts
     default :
       return state
   }
@@ -60,7 +64,6 @@ function post (state = {}, action) {
 }
 
 function comments (state = [], action) {
-  console.log('wwww action', action)
   switch (action.type) {
     case RECEIVE_COMMENTS :
       return action.comments
