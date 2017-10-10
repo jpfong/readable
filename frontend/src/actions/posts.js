@@ -59,3 +59,9 @@ export const votePost = (post) => dispatch => (
     .then(() => api.getPosts()
       .then(posts => dispatch(votedPost(posts))))
 )
+
+export const downVotePost = (post) => dispatch => (
+  api.downVotePost(post.id)
+    .then(() => api.getPosts()
+      .then(posts => dispatch(votedPost(posts))))
+)

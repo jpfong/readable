@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { fetchCategories } from '../actions/categories'
-import { fetchPosts, sortPosts, deletePost, votePost, votePost2 } from '../actions/posts'
+import { fetchPosts, sortPosts, deletePost, votePost, downVotePost } from '../actions/posts'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -22,6 +22,10 @@ class RootPage extends Component {
     this.props.doVotePost(post)
   }
 
+  downVotePost(post) {
+    this.props.doDownVotePost(post)
+  }
+
   render() {
     const categories = this.props.categories
     const posts = this.props.posts
@@ -41,6 +45,7 @@ class RootPage extends Component {
             <li key={item.id}>
               <Link to={'/'+ item.category + '/' + item.id }>{item.title}</Link>, author: {item.author}, timestamp: {item.timestamp}, score: {item.voteScore}
               <button onClick={() => this.votePost(item)}>Upvote</button>
+              <button onClick={() => this.downVotePost(item)}>Downvote</button>
               <button onClick={() => this.deletePost(item.id)}>Delete</button>
             </li>
           ))}
@@ -64,7 +69,8 @@ function mapDispatchToProps (dispatch) {
     getPosts: () => dispatch(fetchPosts()),
     sortPost: (sort) => dispatch(sortPosts(sort)),
     deletePost: (postId) => dispatch(deletePost(postId)),
-    doVotePost: (post) => dispatch(votePost((post)))
+    doVotePost: (post) => dispatch(votePost((post))),
+    doDownVotePost: (post) => dispatch(downVotePost(post))
   }
 }
 

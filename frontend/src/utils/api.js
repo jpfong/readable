@@ -77,3 +77,13 @@ export const votePost = (postId) =>
     },
     body: JSON.stringify({ option: 'upVote'})
   }).then(res => res.json())
+
+export const downVotePost = (postId) =>
+  fetch(`${url}/posts/${postId}`, {
+    method: 'POST',
+    headers: {
+      ...headers2,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option: 'downVote'})
+  }).then(res => res.json())
