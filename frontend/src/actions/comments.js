@@ -43,5 +43,6 @@ export const commentAdded = (comment) => dispatch => ({
 })
 
 export const addComment = (data) => dispatch => (
-  api.createComment(data).then(comment => dispatch(commentAdded(comment)))
+  api.createComment(data).then((comment) => api.getPostComments(comment.parentId)
+    .then(comments => dispatch(updateComment(comments))))
 )
