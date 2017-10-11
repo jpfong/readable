@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { fetchPost } from '../actions/post'
+import { fetchPost, upvotePost, downVotePost } from '../actions/post'
 import { deletePost } from '../actions/posts'
 import { fetchComments, updateComments, doDeleteComment } from '../actions/comments'
 import { connect } from 'react-redux'
@@ -38,6 +38,14 @@ class Post extends Component {
     })
   }
 
+  votePost(postId) {
+    this.props.votePost(postId)
+  }
+
+  downVotePost(postId) {
+    this.props.downVotePost(postId)
+  }
+
   render() {
     const post = this.props.post
     const comments = this.props.comments
@@ -72,6 +80,8 @@ class Post extends Component {
               Current score: {post.voteScore}
             </li>
         </ul> }
+        <button onClick={() => this.votePost(post.id)}>Upvote</button>
+        <button onClick={() => this.downVotePost(post.id)}>Downvote</button>
         <button onClick={() => this.deletePost(post.id)}>Delete</button>
         <CommentForm parentId={post.id}></CommentForm>
       </div>
@@ -92,7 +102,9 @@ function mapDispatchToProps (dispatch) {
     getPostComments: (postId) => dispatch(fetchComments(postId)),
     updateComment: (comment, options) => dispatch(updateComments(comment, options)),
     deleteComment: (comment) => dispatch(doDeleteComment(comment)),
-    deletePost: (postId) => dispatch(deletePost(postId))
+    deletePost: (postId) => dispatch(deletePost(postId)),
+    votePost: (postId) => dispatch(upvotePost(postId)),
+    downVotePost: (postId) => dispatch(downVotePost(postId))
   }
 }
 

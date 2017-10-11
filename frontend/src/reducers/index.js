@@ -13,7 +13,8 @@ import {
 } from '../actions/posts'
 
 import {
-  RECEIVE_POST
+  RECEIVE_POST,
+  VOTE_POST_DETAIL
 } from '../actions/post'
 
 import {
@@ -57,6 +58,8 @@ function posts (state = [], action) {
 function post (state = {}, action) {
   switch (action.type) {
     case RECEIVE_POST :
+      return action.post
+    case VOTE_POST_DETAIL:
       return action.post
     default :
       return state
