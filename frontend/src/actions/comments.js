@@ -37,11 +37,6 @@ export const doDeleteComment = (comment) => dispatch => (
       .then((comment) => dispatch(deleteComment(comment)))
 )
 
-export const commentAdded = (comment) => dispatch => ({
-  type: ADD_COMMENT,
-  comment
-})
-
 export const addComment = (data) => dispatch => (
   api.createComment(data).then((comment) => api.getPostComments(comment.parentId)
     .then(comments => dispatch(updateComment(comments))))
