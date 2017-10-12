@@ -5,6 +5,7 @@ export const RECEIVE_CATEGORY_POSTS = 'RECEIVE_CATEGORY_POSTS'
 export const DELETE_POST = 'DELETE_POST'
 export const SORT_POSTS = 'SORT_POSTS'
 export const VOTE_POST = 'VOTE_POST'
+export const CREATE_POST = 'CREATE_POST'
 
 export const receivePosts = (posts) => ({
   type: RECEIVE_POSTS,
@@ -64,4 +65,14 @@ export const downVotePost = (post) => dispatch => (
   api.downVotePost(post.id)
     .then(() => api.getPosts()
       .then(posts => dispatch(votedPost(posts))))
+)
+
+export const createdPost = (posts) => ({
+  type: CREATE_POST,
+  posts
+})
+
+export const createPost = (data) => dispatch => (
+  api.createPost(data).then(() => api.getPosts()
+    .then(posts => dispatch(createdPost(posts))))
 )

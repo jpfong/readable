@@ -3,6 +3,7 @@ import { fetchCategories } from '../actions/categories'
 import { fetchPosts, sortPosts, deletePost, votePost, downVotePost } from '../actions/posts'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import PostForm from './postForm'
 
 class RootPage extends Component {
   componentDidMount() {
@@ -52,6 +53,7 @@ class RootPage extends Component {
         </ul>
         <button onClick={() => this.sortPost('date')}>Sort by date</button>
         <button onClick={() => this.sortPost('score')}>Sort by score</button>
+        <PostForm></PostForm>
       </div>)
   }
 }
