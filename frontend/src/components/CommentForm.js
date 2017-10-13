@@ -13,7 +13,8 @@ class CommentForm extends Component {
       values.id = UUID.v4()
       values.timestamp = new Date().getTime()
       values.parentId = this.props.parentId
-      this.props.createComment(values).then((comment) => {
+      // this.props.createComment(values).then((comment) => {
+      this.props.addComment(values).then(() => {
         values.body = ''
         values.author = ''
       }).catch((err) => {
@@ -40,13 +41,6 @@ function mapStateToProps ({comments}) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    createComment: (data) => dispatch(addComment(data))
-  }
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, { addComment }
 )(CommentForm)
