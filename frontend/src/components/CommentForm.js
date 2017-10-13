@@ -14,7 +14,6 @@ class CommentForm extends Component {
       values.timestamp = new Date().getTime()
       values.parentId = this.props.parentId
       this.props.createComment(values).then((comment) => {
-        console.log('ssss comment', comment)
         values.body = ''
         values.author = ''
       }).catch((err) => {
