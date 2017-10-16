@@ -1,14 +1,8 @@
 import * as api from '../utils/api.js'
-
-export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-export const RECEIVE_CATEGORY_POSTS = 'RECEIVE_CATEGORY_POSTS'
-export const DELETE_POST = 'DELETE_POST'
-export const SORT_POSTS = 'SORT_POSTS'
-export const VOTE_POST = 'VOTE_POST'
-export const CREATE_POST = 'CREATE_POST'
+import * as actionTypes from './actionTypes'
 
 export const receivePosts = (posts) => ({
-  type: RECEIVE_POSTS,
+  type: actionTypes.RECEIVE_POSTS,
   posts
 })
 
@@ -19,7 +13,7 @@ export const fetchPosts = () => dispatch => (
 )
 
 export const receiveCategoryPosts = (posts) => ({
-  type: RECEIVE_CATEGORY_POSTS,
+  type: actionTypes.RECEIVE_CATEGORY_POSTS,
   posts
 })
 
@@ -30,7 +24,7 @@ export const fetchCategoryPosts = (category) => dispatch => (
 )
 
 export const deletedPost = (deletedPost) => ({
-  type: DELETE_POST,
+  type: actionTypes.DELETE_POST,
   deletedPost
 })
 
@@ -39,7 +33,7 @@ export const deletePost = (postId) => dispatch => (
 )
 
 export const sortedPosts = (posts, sort) => ({
-  type: SORT_POSTS,
+  type: actionTypes.SORT_POSTS,
   posts,
   sort
 })
@@ -51,7 +45,7 @@ export const sortPosts = (sort) => dispatch => (
 )
 
 export const votedPost = (posts) => ({
-  type: VOTE_POST,
+  type: actionTypes.VOTE_POST,
   posts
 })
 
@@ -68,7 +62,7 @@ export const downVotePost = (post) => dispatch => (
 )
 
 export const createdPost = (posts) => ({
-  type: CREATE_POST,
+  type: actionTypes.CREATE_POST,
   posts
 })
 

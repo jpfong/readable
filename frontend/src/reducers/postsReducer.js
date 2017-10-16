@@ -5,7 +5,7 @@ import {
   SORT_POSTS,
   VOTE_POST,
   CREATE_POST
-} from '../actions/posts'
+} from '../actions/actionTypes'
 
 
 export default function posts (state = [], action) {

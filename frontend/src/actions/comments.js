@@ -1,12 +1,8 @@
 import * as api from '../utils/api.js'
-
-export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
-export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
-export const DELETE_COMMENT = 'DELETE_COMMENT'
-export const ADD_COMMENT = 'ADD_COMMENT'
+import * as actionTypes from './actionTypes'
 
 export const receiveComments = (comments) => ({
-  type: RECEIVE_COMMENTS,
+  type: actionTypes.RECEIVE_COMMENTS,
   comments
 })
 
@@ -17,7 +13,7 @@ export const fetchComments = (postId) => dispatch => (
 )
 
 export const updateComment = (comments) => ({
-  type: UPDATE_COMMENTS,
+  type: actionTypes.UPDATE_COMMENTS,
   comments
 })
 
@@ -28,7 +24,7 @@ export const updateComments = (comment, option) => dispatch => (
 )
 
 export const deleteComment = (comment) => ({
-  type: DELETE_COMMENT,
+  type: actionTypes.DELETE_COMMENT,
   comment
 })
 

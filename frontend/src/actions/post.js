@@ -1,10 +1,8 @@
 import * as api from '../utils/api.js'
-
-export const RECEIVE_POST = 'RECEIVE_POST'
-export const VOTE_POST_DETAIL = 'VOTE_POST_DETAIL'
+import * as actionTypes from './actionTypes'
 
 export const receivePost = (post) => ({
-  type: RECEIVE_POST,
+  type: actionTypes.RECEIVE_POST,
   post
 })
 
@@ -15,7 +13,7 @@ export const fetchPost = (postId) => dispatch => (
 )
 
 export const votePost = (post) => ({
-  type: VOTE_POST_DETAIL,
+  type: actionTypes.VOTE_POST_DETAIL,
   post
 })
 

@@ -1,7 +1,7 @@
 import {
   RECEIVE_POST,
   VOTE_POST_DETAIL
-} from '../actions/post'
+} from '../actions/actionTypes'
 
 export default function post (state = {}, action) {
   switch (action.type) {
