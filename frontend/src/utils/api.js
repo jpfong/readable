@@ -1,11 +1,6 @@
 const url = "http://localhost:3001"
 
 const headers = {
-  headers: { 'Authorization': 'whatever-you-want' },
-  credentials: 'include'
-}
-
-const headers2 = {
   'Accept': 'application/json',
   'Authorization': 'whatever-you-want'
 }
@@ -13,34 +8,43 @@ const headers2 = {
 export const getCategories = () =>
   fetch(`${url}/categories`, {
     headers: {
-      ...headers2
+      ...headers
     }
   }).then(res => res.json()).then(data => data.categories)
 
 export const getPosts = () =>
   fetch(`${url}/posts`, {
     headers: {
-      ...headers2
+      ...headers
     }
   }).then(res => res.json())
 
 export const getCategoryPosts = (category) =>
-  fetch(`${url}/${category}/posts`, headers)
-    .then(res => res.json())
+  fetch(`${url}/${category}/posts`, {
+    headers: {
+      ...headers
+    }
+  }).then(res => res.json())
 
 export const getPost = (postId) =>
-  fetch(`${url}/posts/${postId}`, headers)
-    .then(res => res.json())
+  fetch(`${url}/posts/${postId}`, {
+    headers: {
+      ...headers
+    }
+  }).then(res => res.json())
 
 export const getPostComments = (postId) =>
-  fetch(`${url}/posts/${postId}/comments`, headers)
-    .then(res => res.json())
+  fetch(`${url}/posts/${postId}/comments`, {
+    headers: {
+      ...headers
+    }
+  }).then(res => res.json())
 
 export const updateComment = (comment, option) =>
   fetch(`${url}/comments/${comment.id}`, {
     method: 'POST',
     headers: {
-      ...headers2,
+      ...headers,
      'Content-Type': 'application/json'
     },
     body: JSON.stringify(option)
@@ -62,7 +66,7 @@ export const createComment = (data) =>
   fetch(`${url}/comments`, {
     method: 'POST',
     headers: {
-      ...headers2,
+      ...headers,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
@@ -72,7 +76,7 @@ export const votePost = (postId) =>
   fetch(`${url}/posts/${postId}`, {
     method: 'POST',
     headers: {
-      ...headers2,
+      ...headers,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ option: 'upVote'})
@@ -82,7 +86,7 @@ export const downVotePost = (postId) =>
   fetch(`${url}/posts/${postId}`, {
     method: 'POST',
     headers: {
-      ...headers2,
+      ...headers,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ option: 'downVote'})
@@ -92,7 +96,7 @@ export const createPost = (data) =>
   fetch(`${url}/posts`, {
     method: 'POST',
     headers: {
-      ...headers2,
+      ...headers,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
