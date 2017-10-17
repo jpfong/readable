@@ -4,10 +4,12 @@ import { Route } from 'react-router-dom'
 import RootPage from './RootPage'
 import Category from './Category'
 import Post from './Post'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class App extends Component {
   render() {
     return (
+      <MuiThemeProvider>
       <div>
         <Route exact path="/" render={() => (
           <RootPage/>
@@ -15,6 +17,7 @@ class App extends Component {
         <Route exact path="/:category" component={Category}/>
         <Route exact path="/:category/:postId" component={Post}/>
       </div>
+      </MuiThemeProvider>
     )
   }
 }

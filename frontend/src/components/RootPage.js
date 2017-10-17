@@ -4,12 +4,42 @@ import { fetchPosts, sortPosts, deletePost, votePost, downVotePost } from '../ac
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostForm from './postForm'
+import RaisedButton from 'material-ui/RaisedButton'
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+
 
 class RootPage extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+    };
+  }
+
   componentDidMount() {
     this.props.getCategories()
     this.props.getPosts()
   }
+
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
 
   sortPost(sort) {
     this.props.sortPost(sort)
@@ -27,6 +57,13 @@ class RootPage extends Component {
     this.props.doDownVotePost(post)
   }
 
+  clickMenu(category) {
+    console.log('click menu')
+    const {history} = this.props
+    console.log('history', history)
+    history.push(`/${category}`)
+  }
+
   render() {
     const categories = this.props.categories
     const posts = this.props.posts
@@ -40,6 +77,27 @@ class RootPage extends Component {
             </li>
           ))}
         </ul>
+
+        <RaisedButton
+          onClick={this.handleTouchTap}
+          label='Choose category'
+        />
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.handleRequestClose}>
+          <Menu>
+            {categories.map((item) => (
+                <Link to={'/'+ item.name } key={item.name}>
+                  <MenuItem primaryText={item.name}/>
+                </Link>
+              // onClick={() => this.clickMenu()}
+            ))}
+          </Menu>
+        </Popover>
+
         Posts
         <ul>
           {posts.map((item) => (
@@ -54,6 +112,7 @@ class RootPage extends Component {
         <button onClick={() => this.sortPost('date')}>Sort by date</button>
         <button onClick={() => this.sortPost('score')}>Sort by score</button>
         <PostForm></PostForm>
+        <RaisedButton label="Default" />
       </div>)
   }
 }

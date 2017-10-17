@@ -13,7 +13,6 @@ class CommentForm extends Component {
       values.id = UUID.v4()
       values.timestamp = new Date().getTime()
       values.parentId = this.props.parentId
-      // this.props.createComment(values).then((comment) => {
       this.props.addComment(values).then(() => {
         values.body = ''
         values.author = ''
