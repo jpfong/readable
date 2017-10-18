@@ -9,6 +9,14 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table'
 
 class RootPage extends Component {
 
@@ -98,21 +106,39 @@ class RootPage extends Component {
           </Menu>
         </Popover>
 
-        Posts
-        <ul>
-          {posts.map((item) => (
-            <li key={item.id}>
-              <Link to={'/'+ item.category + '/' + item.id }>{item.title}</Link>, author: {item.author}, timestamp: {item.timestamp}, score: {item.voteScore}
-              <button onClick={() => this.votePost(item)}>Upvote</button>
-              <button onClick={() => this.downVotePost(item)}>Downvote</button>
-              <button onClick={() => this.deletePost(item.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <Table
+          selectable={false}>
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn>Title</TableHeaderColumn>
+              <TableHeaderColumn>Author</TableHeaderColumn>
+              <TableHeaderColumn>Timestamp</TableHeaderColumn>
+              <TableHeaderColumn>Score</TableHeaderColumn>
+              <TableHeaderColumn>Action</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {posts.map((item) => (
+                <TableRow key={item.id}>
+                  <TableRowColumn><Link to={'/'+ item.category + '/' + item.id }>{item.title}</Link></TableRowColumn>
+                  <TableRowColumn>{item.author}</TableRowColumn>
+                  <TableRowColumn>{item.timestamp}</TableRowColumn>
+                  <TableRowColumn>{item.voteScore}</TableRowColumn>
+                  <TableRowColumn>
+                    <RaisedButton onClick={() => this.votePost(item)} label="Upvote"/>
+                    <RaisedButton onClick={() => this.downVotePost(item)} label="Downvote"/>
+                    <RaisedButton onClick={() => this.deletePost(item.id)} label="Delete"/>
+                  </TableRowColumn>
+                </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
         <button onClick={() => this.sortPost('date')}>Sort by date</button>
         <button onClick={() => this.sortPost('score')}>Sort by score</button>
         <PostForm></PostForm>
-        <RaisedButton label="Default" />
       </div>)
   }
 }
