@@ -5,6 +5,8 @@ import { fetchComments, updateComments, doDeleteComment } from '../actions/comme
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
 import CommentForm from './CommentForm'
+import {Card, CardTitle, CardText, CardActions} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
 
 class Post extends Component {
   state = {
@@ -53,36 +55,29 @@ class Post extends Component {
     return (
       <div>
         { loadingPost ? <Loading delay={200} type='spin' color='#222' className='loading' /> :
-          <ul>
-            <li>
-              Title: { post.title }
-            </li>
-            <li>
-              Author: { post.author }
-            </li>
-            <li>
-              Body: { post.body }
+          <Card>
+            <CardTitle title={ post.title } subtitle={post.author}/>
+            <CardText>
+              <p>Current score: {post.voteScore}</p>
+              <p>{ post.body }</p>
               <ul>
                 {comments.map((comment) => (
                   <li key={comment.id}>
                     {comment.body}, author: {comment.author}, current score: {comment.voteScore}
-                      &nbsp;<button onClick={() => this.upvoteComment(comment)}>Upvote</button>
-                      &nbsp;<button onClick={() => this.downVoteComment(comment)}>Downvote</button>
-                      &nbsp;<button onClick={() => this.deleteComment(comment)}>Delete</button>
+                    &nbsp;<button onClick={() => this.upvoteComment(comment)}>Upvote</button>
+                    &nbsp;<button onClick={() => this.downVoteComment(comment)}>Downvote</button>
+                    &nbsp;<button onClick={() => this.deleteComment(comment)}>Delete</button>
                   </li>
                 ))}
               </ul>
-            </li>
-            <li>
-              Number of comments: {comments.length}
-            </li>
-            <li>
-              Current score: {post.voteScore}
-            </li>
-        </ul> }
-        <button onClick={() => this.votePost(post.id)}>Upvote</button>
-        <button onClick={() => this.downVotePost(post.id)}>Downvote</button>
-        <button onClick={() => this.deletePost(post.id)}>Delete</button>
+            </CardText>
+            <CardActions>
+              <FlatButton label='Upvote' onClick={() => this.votePost(post.id)}/>
+              <FlatButton label='Downvote' onClick={() => this.downVotePost(post.id)}/>
+              <FlatButton label='Delete' onClick={() => this.deletePost(post.id)}/>
+            </CardActions>
+          </Card>
+        }
         <CommentForm parentId={post.id}></CommentForm>
       </div>
     )
