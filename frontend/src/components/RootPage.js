@@ -116,6 +116,7 @@ class RootPage extends Component {
               <TableHeaderColumn>Author</TableHeaderColumn>
               <TableHeaderColumn>Timestamp</TableHeaderColumn>
               <TableHeaderColumn>Score</TableHeaderColumn>
+              <TableHeaderColumn>Number of comments</TableHeaderColumn>
               <TableHeaderColumn>Action</TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -126,6 +127,7 @@ class RootPage extends Component {
                   <TableRowColumn>{item.author}</TableRowColumn>
                   <TableRowColumn>{item.timestamp}</TableRowColumn>
                   <TableRowColumn>{item.voteScore}</TableRowColumn>
+                  <TableRowColumn>{item.commentCount}</TableRowColumn>
                   <TableRowColumn>
                     <RaisedButton onClick={() => this.votePost(item)} label="Upvote"/>
                     <RaisedButton onClick={() => this.downVotePost(item)} label="Downvote"/>
