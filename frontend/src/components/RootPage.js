@@ -138,8 +138,8 @@ class RootPage extends Component {
           </TableBody>
         </Table>
 
-        <button onClick={() => this.sortPost('date')}>Sort by date</button>
-        <button onClick={() => this.sortPost('score')}>Sort by score</button>
+        <RaisedButton onClick={() => this.sortPost('date')} label='Sort by date'/>
+        <RaisedButton onClick={() => this.sortPost('score')} label='Sort by score'/>
         <PostForm></PostForm>
       </div>)
   }
