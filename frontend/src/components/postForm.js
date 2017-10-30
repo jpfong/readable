@@ -1,43 +1,123 @@
 import React, {Component} from 'react'
-import serializeForm from 'form-serialize'
 import {default as UUID} from 'node-uuid'
 import { createPost } from '../actions/posts'
 import { connect } from 'react-redux'
+import TextField from 'material-ui/TextField';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 class PostForm extends Component {
 
+  state = {
+    title: '',
+    titleErrorText: '',
+    body: '',
+    bodyErrorText: '',
+    author: '',
+    authorErrorText: '',
+    category: 'react'
+  };
+
+  handleChange = (event, index, category) => this.setState({category})
+  handleTitleChange = (event, title) => {
+    this.setState({title})
+    if (title.length <= 0) {
+      this.setState({
+        titleErrorText: 'This field is required'
+      })
+    } else {
+      this.setState({
+        titleErrorText: ''
+      })
+    }
+  }
+  handleBodyChange = (event, body) => {
+    this.setState({body})
+    if (body.length <= 0) {
+      this.setState({
+        bodyErrorText: 'This field is required'
+      })
+    } else {
+      this.setState({
+        bodyErrorText: ''
+      })
+    }
+  }
+  authorErrorText = (event, author) => {
+    this.setState({author})
+    if (author.length <= 0) {
+      this.setState({
+        authorErrorText: 'This field is required'
+      })
+    } else {
+      this.setState({
+        bodyErrorText: ''
+      })
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
-    const values = serializeForm(e.target, { hash: true})
-    if (values.title && values.body && values.author && values.category) {
-      values.id = UUID.v4()
-      values.timestamp = new Date().getTime()
-      this.props.createPost(values).then((post) => {
-        console.log('ssss comment', post)
-        values.title = ''
-        values.body = ''
-        values.author = ''
+    if (this.state.title && this.state.body && this.state.author && this.state.category) {
+      const post = {
+        id: UUID.v4(),
+        timestamp: new Date().getTime(),
+        title: this.state.title,
+        body: this.state.body,
+        author: this.state.author,
+        category: this.state.category
+      }
+      this.props.createPost(post).then(() => {
+        this.setState({
+          title: '',
+          body: '',
+          author: '',
+          category : 'react'
+        })
       }).catch((err) => {
         console.error(err)
       })
     }
   }
 
+
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <input type="text" name="title" placeholder="Title"/>
-          <input type="text" name="body" placeholder="Body"/>
-          <input type="text" name="author" placeholder="Author"/>
-          <select name="category">
-            <option value="react">react</option>
-            <option value="redux">redux</option>
-            <option value="udacity">udacity</option>
-          </select>
-          <button>Add Post</button>
-        </div>
-      </form>)
+      <Card>
+        <CardTitle title="Add a post"/>
+        <form onSubmit={this.handleSubmit}>
+          <CardText>
+            <TextField
+              floatingLabelText="Title"
+              onChange={this.handleTitleChange}
+              errorText={this.state.titleErrorText}
+              value={this.state.title}/><br />
+            <TextField
+              floatingLabelText="Body"
+              onChange={this.handleBodyChange}
+              errorText={this.state.bodyErrorText}
+              value={this.state.body}/><br />
+            <TextField
+              floatingLabelText="Author"
+              onChange={this.authorErrorText}
+              value={this.state.author}/><br />
+            <SelectField
+              floatingLabelText="Category"
+              value={this.state.category}
+              onChange={this.handleChange}>
+              <MenuItem value={'react'} primaryText="React" />
+              <MenuItem value={'redux'} primaryText="Redux" />
+              <MenuItem value={'udacity'} primaryText="Udacity" />
+            </SelectField>
+
+            <CardActions>
+              <FlatButton label="Add Post" type="submit"/>
+            </CardActions>
+          </CardText>
+        </form>
+      </Card>)
   }
 
 }
