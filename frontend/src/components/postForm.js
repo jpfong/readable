@@ -3,10 +3,10 @@ import {default as UUID} from 'node-uuid'
 import { createPost } from '../actions/posts'
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 
 class PostForm extends Component {
 
@@ -53,7 +53,7 @@ class PostForm extends Component {
       })
     } else {
       this.setState({
-        bodyErrorText: ''
+        authorErrorText: ''
       })
     }
   }
@@ -64,10 +64,7 @@ class PostForm extends Component {
       const post = {
         id: UUID.v4(),
         timestamp: new Date().getTime(),
-        title: this.state.title,
-        body: this.state.body,
-        author: this.state.author,
-        category: this.state.category
+        ...this.state
       }
       this.props.createPost(post).then(() => {
         this.setState({
@@ -102,6 +99,7 @@ class PostForm extends Component {
             <TextField
               floatingLabelText="Author"
               onChange={this.authorErrorText}
+              errorText={this.state.authorErrorText}
               value={this.state.author}/><br />
             <SelectField
               floatingLabelText="Category"
