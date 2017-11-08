@@ -7,6 +7,15 @@ import Loading from 'react-loading'
 import CommentForm from './CommentForm'
 import {Card, CardTitle, CardText, CardActions} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table'
 
 class Post extends Component {
   state = {
@@ -60,16 +69,32 @@ class Post extends Component {
             <CardText>
               <p>Current score: {post.voteScore}</p>
               <p>{ post.body }</p>
-              <ul>
+              <Table selectable={false}>
+                <TableHeader
+                  displaySelectAll={false}
+                  adjustForCheckbox={false}>
+                  <TableRow>
+                    <TableHeaderColumn>Body</TableHeaderColumn>
+                    <TableHeaderColumn>Author</TableHeaderColumn>
+                    <TableHeaderColumn>Score</TableHeaderColumn>
+                    <TableHeaderColumn>Action</TableHeaderColumn>
+                  </TableRow>
+                </TableHeader>
+                <TableBody displayRowCheckbox={false}>
                 {comments.map((comment) => (
-                  <li key={comment.id}>
-                    {comment.body}, author: {comment.author}, current score: {comment.voteScore}
-                    &nbsp;<button onClick={() => this.upvoteComment(comment)}>Upvote</button>
-                    &nbsp;<button onClick={() => this.downVoteComment(comment)}>Downvote</button>
-                    &nbsp;<button onClick={() => this.deleteComment(comment)}>Delete</button>
-                  </li>
+                  <TableRow key={comment.id}>
+                    <TableRowColumn>{comment.body}</TableRowColumn>
+                    <TableRowColumn>{comment.author}</TableRowColumn>
+                    <TableRowColumn>{comment.voteScore}</TableRowColumn>
+                    <TableRowColumn>
+                      <RaisedButton onClick={() => this.upvoteComment(comment)} label="Upvote"/>
+                      <RaisedButton onClick={() => this.downVoteComment(comment)} label="Downvote"/>
+                      <RaisedButton onClick={() => this.deleteComment(comment)} label="Delete"/>
+                    </TableRowColumn>
+                  </TableRow>
                 ))}
-              </ul>
+                </TableBody>
+              </Table>
             </CardText>
             <CardActions>
               <FlatButton label='Upvote' onClick={() => this.votePost(post.id)}/>

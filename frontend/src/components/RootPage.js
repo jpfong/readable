@@ -106,8 +106,7 @@ class RootPage extends Component {
           </Menu>
         </Popover>
 
-        <Table
-          selectable={false}>
+        <Table selectable={false}>
           <TableHeader
             displaySelectAll={false}
             adjustForCheckbox={false}>
