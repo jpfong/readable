@@ -5,9 +5,12 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostForm from './postForm'
 import RaisedButton from 'material-ui/RaisedButton'
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
+import Popover from 'material-ui/Popover'
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
+
+import Categories from './Categories'
+
 
 import {
   Table,
@@ -65,18 +68,13 @@ class RootPage extends Component {
     this.props.doDownVotePost(post)
   }
 
-  clickMenu(category) {
-    console.log('click menu')
-    const {history} = this.props
-    console.log('history', history)
-    history.push(`/${category}`)
-  }
-
   render() {
     const categories = this.props.categories
     const posts = this.props.posts
     return (
       <div>
+        <Categories/>
+
         Categories
         <ul>
           {categories.map((item) => (
@@ -101,7 +99,6 @@ class RootPage extends Component {
                 <Link to={'/'+ item.name } key={item.name}>
                   <MenuItem primaryText={item.name}/>
                 </Link>
-              // onClick={() => this.clickMenu()}
             ))}
           </Menu>
         </Popover>
