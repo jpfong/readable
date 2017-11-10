@@ -37,6 +37,9 @@ class Categories extends Component {
           width={200}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}>
+          <Link to={'/'} key='home'>
+            <MenuItem primaryText='Home'/>
+          </Link>
           {categories.map((item) => (
             <Link to={'/'+ item.name } key={item.name}>
               <MenuItem primaryText={item.name}/>

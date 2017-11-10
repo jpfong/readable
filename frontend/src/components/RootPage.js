@@ -1,16 +1,9 @@
 import React, {Component} from 'react'
-import { fetchCategories } from '../actions/categories'
 import { fetchPosts, sortPosts, deletePost, votePost, downVotePost } from '../actions/posts'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostForm from './postForm'
 import RaisedButton from 'material-ui/RaisedButton'
-import Popover from 'material-ui/Popover'
-import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
-
-import Categories from './Categories'
-
 
 import {
   Table,
@@ -23,34 +16,9 @@ import {
 
 class RootPage extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      open: false,
-    };
-  }
-
   componentDidMount() {
-    this.props.getCategories()
     this.props.getPosts()
   }
-
-  handleTouchTap = (event) => {
-    // This prevents ghost click.
-    event.preventDefault();
-
-    this.setState({
-      open: true,
-      anchorEl: event.currentTarget,
-    });
-  };
-
-  handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
 
   sortPost(sort) {
     this.props.sortPost(sort)
@@ -69,40 +37,9 @@ class RootPage extends Component {
   }
 
   render() {
-    const categories = this.props.categories
     const posts = this.props.posts
     return (
       <div>
-        <Categories/>
-
-        Categories
-        <ul>
-          {categories.map((item) => (
-            <li key={item.name}>
-              <Link to={'/'+ item.name }>{item.name}</Link>
-            </li>
-          ))}
-        </ul>
-
-        <RaisedButton
-          onClick={this.handleTouchTap}
-          label='Choose category'
-        />
-        <Popover
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          onRequestClose={this.handleRequestClose}>
-          <Menu>
-            {categories.map((item) => (
-                <Link to={'/'+ item.name } key={item.name}>
-                  <MenuItem primaryText={item.name}/>
-                </Link>
-            ))}
-          </Menu>
-        </Popover>
-
         <Table selectable={false}>
           <TableHeader
             displaySelectAll={false}
@@ -141,16 +78,14 @@ class RootPage extends Component {
   }
 }
 
-function mapStateToProps ({categories, posts}) {
+function mapStateToProps ({ posts }) {
   return {
-    categories,
     posts
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    getCategories: () => dispatch(fetchCategories()),
     getPosts: () => dispatch(fetchPosts()),
     sortPost: (sort) => dispatch(sortPosts(sort)),
     deletePost: (postId) => dispatch(deletePost(postId)),
