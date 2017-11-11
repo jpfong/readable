@@ -2,27 +2,35 @@ import React, {Component} from 'react'
 import { fetchCategoryPosts } from '../actions/posts'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import {Card, CardTitle, CardText} from 'material-ui/Card'
+import {List, ListItem} from 'material-ui/List'
 
 class Category extends Component {
+
   componentDidMount() {
-    this.props.getCategoryPosts(this.props.match.params.category)
+    this.props.fetchCategoryPosts(this.props.match.params.category)
+  }
+
+  componentWillReceiveProps() {
+    this.props.fetchCategoryPosts(this.props.match.params.category)
   }
 
   render() {
     const posts = this.props.posts
 
     return (
-      <div>
-        <h1>{this.props.match.params.category}</h1>
-        Posts
-        <ul>
+      <Card>
+        <CardTitle title={this.props.match.params.category} />
+        <CardText>
+        </CardText>
+        <List>
           {posts.map((item) => (
-            <li key={item.id}>
-              <Link to={'/'+ item.category + '/' + item.id }>{item.title}</Link>
-            </li>
+              <Link to={'/'+ item.category + '/' + item.id } key={item.id}>
+                <ListItem primaryText={item.title}/>
+              </Link>
           ))}
-        </ul>
-      </div>
+        </List>
+      </Card>
     )
   }
 }
@@ -33,13 +41,7 @@ function mapStateToProps ({posts}) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    getCategoryPosts: (category) => dispatch(fetchCategoryPosts(category))
-  }
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {fetchCategoryPosts}
 )(Category)
