@@ -17,9 +17,7 @@ class Categories extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCategories().then((categories) => {
-      console.log(categories)
-    })
+    this.props.fetchCategories()
   }
 
   openDrawer = () => this.setState({open: !this.state.open});
