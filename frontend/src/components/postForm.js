@@ -18,7 +18,17 @@ class PostForm extends Component {
     author: '',
     authorErrorText: '',
     category: 'react'
-  };
+  }
+
+  componentDidMount() {
+    const { post, editPost } = this.props
+    if (editPost && post) {
+      this.setState({title: post.title})
+      this.setState({body: post.body})
+      this.setState({author: post.author})
+      this.setState({category: post.category})
+    }
+  }
 
   handleChange = (event, index, category) => this.setState({category})
   handleTitleChange = (event, title) => {
@@ -81,9 +91,11 @@ class PostForm extends Component {
 
 
   render() {
+    const { editPost } = this.props
+
     return (
       <Card>
-        <CardTitle title="Add a post"/>
+        { editPost ? <CardTitle title="Edit post"/> : <CardTitle title="Add a post"/>}
         <form onSubmit={this.handleSubmit}>
           <CardText>
             <TextField
@@ -111,7 +123,7 @@ class PostForm extends Component {
             </SelectField>
 
             <CardActions>
-              <FlatButton label="Add Post" type="submit"/>
+              <FlatButton label={ editPost ? 'Edit': 'Add'} type="submit"/>
             </CardActions>
           </CardText>
         </form>
@@ -120,9 +132,10 @@ class PostForm extends Component {
 
 }
 
-function mapStateToProps ({posts}) {
+function mapStateToProps ({posts, post}) {
   return {
-    posts
+    posts,
+    post
   }
 }
 

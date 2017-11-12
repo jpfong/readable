@@ -5,6 +5,7 @@ import { fetchComments, updateComments, doDeleteComment } from '../actions/comme
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
 import CommentForm from './CommentForm'
+import PostForm from './postForm'
 import {Card, CardTitle, CardText, CardActions} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -19,7 +20,8 @@ import {
 
 class Post extends Component {
   state = {
-    loadingPost: true
+    loadingPost: true,
+    editPost: false
   }
   componentDidMount() {
     this.setState(() => ({ loadingPost: true }))
@@ -57,10 +59,14 @@ class Post extends Component {
     this.props.downVotePost(postId)
   }
 
+  editPost() {
+    this.setState(() => ({ editPost: true }))
+  }
+
   render() {
     const post = this.props.post
     const comments = this.props.comments
-    const { loadingPost } = this.state
+    const { loadingPost, editPost } = this.state
     return (
       <div>
         { loadingPost ? <Loading delay={200} type='spin' color='#222' className='loading' /> :
@@ -100,10 +106,12 @@ class Post extends Component {
               <FlatButton label='Upvote' onClick={() => this.votePost(post.id)}/>
               <FlatButton label='Downvote' onClick={() => this.downVotePost(post.id)}/>
               <FlatButton label='Delete' onClick={() => this.deletePost(post.id)}/>
+              <FlatButton label='Edit' onClick={() => this.editPost()}/>
             </CardActions>
           </Card>
         }
         <CommentForm parentId={post.id}></CommentForm>
+        { editPost ? <PostForm editPost={editPost}/> : ''}
       </div>
     )
   }
