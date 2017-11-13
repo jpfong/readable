@@ -63,6 +63,10 @@ class Post extends Component {
     this.setState(() => ({ editPost: true }))
   }
 
+  cancelEditPost = () => {
+    this.setState(() => ({ editPost: false }))
+  }
+
   render() {
     const post = this.props.post
     const comments = this.props.comments
@@ -111,7 +115,7 @@ class Post extends Component {
           </Card>
         }
         <CommentForm parentId={post.id}></CommentForm>
-        { editPost ? <PostForm editPost={editPost}/> : ''}
+        { editPost ? <PostForm editPost={editPost} cancelEditPost={this.cancelEditPost}/> : ''}
       </div>
     )
   }

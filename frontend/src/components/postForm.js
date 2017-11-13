@@ -91,7 +91,7 @@ class PostForm extends Component {
 
 
   render() {
-    const { editPost } = this.props
+    const { editPost, cancelEditPost } = this.props
 
     return (
       <Card>
@@ -124,6 +124,7 @@ class PostForm extends Component {
 
             <CardActions>
               <FlatButton label={ editPost ? 'Edit': 'Add'} type="submit"/>
+              { editPost ? <FlatButton label="Cancel" type="button" onClick={() => cancelEditPost()}/> : '' }
             </CardActions>
           </CardText>
         </form>
