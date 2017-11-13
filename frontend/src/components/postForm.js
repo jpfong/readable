@@ -25,8 +25,6 @@ class PostForm extends Component {
     if (editPost && post) {
       this.setState({title: post.title})
       this.setState({body: post.body})
-      this.setState({author: post.author})
-      this.setState({category: post.category})
     }
   }
 
@@ -70,22 +68,39 @@ class PostForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    if (this.state.title && this.state.body && this.state.author && this.state.category) {
-      const post = {
-        id: UUID.v4(),
-        timestamp: new Date().getTime(),
-        ...this.state
-      }
-      this.props.createPost(post).then(() => {
-        this.setState({
-          title: '',
-          body: '',
-          author: '',
-          category : 'react'
+    const {post, editPost, updatePost, cancelEditPost} = this.props
+    if (editPost) {
+      if (this.state.title && this.state.body) {
+        post.title = this.state.title
+        post.body = this.state.body
+        updatePost(post).then(() => {
+          this.setState({
+            title: '',
+            body: '',
+            author: '',
+            category: 'react'
+          })
+          cancelEditPost() // will hide the form
         })
-      }).catch((err) => {
-        console.error(err)
-      })
+      }
+    } else {
+      if (this.state.title && this.state.body && this.state.author && this.state.category) {
+        const post = {
+          id: UUID.v4(),
+          timestamp: new Date().getTime(),
+          ...this.state
+        }
+        this.props.createPost(post).then(() => {
+          this.setState({
+            title: '',
+            body: '',
+            author: '',
+            category: 'react'
+          })
+        }).catch((err) => {
+          console.error(err)
+        })
+      }
     }
   }
 
@@ -108,11 +123,15 @@ class PostForm extends Component {
               onChange={this.handleBodyChange}
               errorText={this.state.bodyErrorText}
               value={this.state.body}/><br />
-            <TextField
-              floatingLabelText="Author"
-              onChange={this.authorErrorText}
-              errorText={this.state.authorErrorText}
-              value={this.state.author}/><br />
+            {editPost ?  '' :
+              <TextField
+                floatingLabelText="Author"
+                onChange={this.authorErrorText}
+                errorText={this.state.authorErrorText}
+                value={this.state.author}/>
+            }
+            <br/>
+            { editPost ? '' :
             <SelectField
               floatingLabelText="Category"
               value={this.state.category}
@@ -120,7 +139,7 @@ class PostForm extends Component {
               <MenuItem value={'react'} primaryText="React" />
               <MenuItem value={'redux'} primaryText="Redux" />
               <MenuItem value={'udacity'} primaryText="Udacity" />
-            </SelectField>
+            </SelectField> }
 
             <CardActions>
               <FlatButton label={ editPost ? 'Edit': 'Add'} type="submit"/>

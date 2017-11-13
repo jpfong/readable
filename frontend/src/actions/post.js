@@ -24,3 +24,12 @@ export const upvotePost = (postId) => dispatch => (
 export const downVotePost = (postId) => dispatch => (
   api.downVotePost(postId).then(post => dispatch(votePost(post)))
 )
+
+export const updatePost = (post) => ({
+  type: actionTypes.UPDATE_POST,
+  post
+})
+
+export const doUpdatePost = (post) => dispatch => (
+  api.updatePost(post).then(post => dispatch(updatePost(post)))
+)

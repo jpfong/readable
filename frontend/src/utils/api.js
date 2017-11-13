@@ -101,3 +101,13 @@ export const createPost = (data) =>
     },
     body: JSON.stringify(data)
   }).then(res => res.json())
+
+export const updatePost = (data) =>
+  fetch(`${url}/posts/${data.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(res => res.json())

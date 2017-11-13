@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { fetchPost, upvotePost, downVotePost } from '../actions/post'
+import { fetchPost, upvotePost, downVotePost, doUpdatePost } from '../actions/post'
 import { deletePost } from '../actions/posts'
 import { fetchComments, updateComments, doDeleteComment } from '../actions/comments'
 import { connect } from 'react-redux'
@@ -9,6 +9,8 @@ import PostForm from './postForm'
 import {Card, CardTitle, CardText, CardActions} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+
 import {
   Table,
   TableBody,
@@ -67,6 +69,11 @@ class Post extends Component {
     this.setState(() => ({ editPost: false }))
   }
 
+  /*
+  updatePost = (post) => {
+    this.updatePost(post)
+  } */
+
   render() {
     const post = this.props.post
     const comments = this.props.comments
@@ -115,7 +122,13 @@ class Post extends Component {
           </Card>
         }
         <CommentForm parentId={post.id}></CommentForm>
-        { editPost ? <PostForm editPost={editPost} cancelEditPost={this.cancelEditPost}/> : ''}
+        <Dialog
+          title="Dialog With Actions"
+          modal={false}
+          open={editPost}
+          onRequestClose={this.cancelEditPost}>
+          <PostForm editPost={editPost} cancelEditPost={this.cancelEditPost} updatePost={this.props.updatePost}/>
+        </Dialog>
       </div>
     )
   }
@@ -136,7 +149,8 @@ function mapDispatchToProps (dispatch) {
     deleteComment: (comment) => dispatch(doDeleteComment(comment)),
     deletePost: (postId) => dispatch(deletePost(postId)),
     votePost: (postId) => dispatch(upvotePost(postId)),
-    downVotePost: (postId) => dispatch(downVotePost(postId))
+    downVotePost: (postId) => dispatch(downVotePost(postId)),
+    updatePost: (post) => dispatch(doUpdatePost(post))
   }
 }
 
