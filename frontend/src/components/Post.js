@@ -69,68 +69,70 @@ class Post extends Component {
     this.setState(() => ({ editPost: false }))
   }
 
-  /*
-  updatePost = (post) => {
-    this.updatePost(post)
-  } */
-
   render() {
     const post = this.props.post
     const comments = this.props.comments
     const { loadingPost, editPost } = this.state
-    return (
-      <div>
-        { loadingPost ? <Loading delay={200} type='spin' color='#222' className='loading' /> :
-          <Card>
-            <CardTitle title={ post.title } subtitle={post.author}/>
-            <CardText>
-              <p>Current score: {post.voteScore}</p>
-              <p>{ post.body }</p>
-              <Table selectable={false}>
-                <TableHeader
-                  displaySelectAll={false}
-                  adjustForCheckbox={false}>
-                  <TableRow>
-                    <TableHeaderColumn>Body</TableHeaderColumn>
-                    <TableHeaderColumn>Author</TableHeaderColumn>
-                    <TableHeaderColumn>Score</TableHeaderColumn>
-                    <TableHeaderColumn>Action</TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody displayRowCheckbox={false}>
-                {comments.map((comment) => (
-                  <TableRow key={comment.id}>
-                    <TableRowColumn>{comment.body}</TableRowColumn>
-                    <TableRowColumn>{comment.author}</TableRowColumn>
-                    <TableRowColumn>{comment.voteScore}</TableRowColumn>
-                    <TableRowColumn>
-                      <RaisedButton onClick={() => this.upvoteComment(comment)} label="Upvote"/>
-                      <RaisedButton onClick={() => this.downVoteComment(comment)} label="Downvote"/>
-                      <RaisedButton onClick={() => this.deleteComment(comment)} label="Delete"/>
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
-                </TableBody>
-              </Table>
-            </CardText>
-            <CardActions>
-              <FlatButton label='Upvote' onClick={() => this.votePost(post.id)}/>
-              <FlatButton label='Downvote' onClick={() => this.downVotePost(post.id)}/>
-              <FlatButton label='Delete' onClick={() => this.deletePost(post.id)}/>
-              <FlatButton label='Edit' onClick={() => this.editPost()}/>
-            </CardActions>
-          </Card>
-        }
-        <CommentForm parentId={post.id}></CommentForm>
-        <Dialog
-          title="Edit Post"
-          modal={false}
-          open={editPost}
-          onRequestClose={this.cancelEditPost}>
-          <PostForm editPost={editPost} cancelEditPost={this.cancelEditPost} updatePost={this.props.updatePost}/>
-        </Dialog>
-      </div>
-    )
+
+    if (post.id) {
+      return (
+        <div>
+          { loadingPost ? <Loading delay={200} type='spin' color='#222' className='loading' /> :
+            <Card>
+              <CardTitle title={ post.title } subtitle={post.author}/>
+              <CardText>
+                <p>Current score: {post.voteScore}</p>
+                <p>{ post.body }</p>
+                <Table selectable={false}>
+                  <TableHeader
+                    displaySelectAll={false}
+                    adjustForCheckbox={false}>
+                    <TableRow>
+                      <TableHeaderColumn>Body</TableHeaderColumn>
+                      <TableHeaderColumn>Author</TableHeaderColumn>
+                      <TableHeaderColumn>Score</TableHeaderColumn>
+                      <TableHeaderColumn>Action</TableHeaderColumn>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody displayRowCheckbox={false}>
+                    {comments.map((comment) => (
+                      <TableRow key={comment.id}>
+                        <TableRowColumn>{comment.body}</TableRowColumn>
+                        <TableRowColumn>{comment.author}</TableRowColumn>
+                        <TableRowColumn>{comment.voteScore}</TableRowColumn>
+                        <TableRowColumn>
+                          <RaisedButton onClick={() => this.upvoteComment(comment)} label="Upvote"/>
+                          <RaisedButton onClick={() => this.downVoteComment(comment)} label="Downvote"/>
+                          <RaisedButton onClick={() => this.deleteComment(comment)} label="Delete"/>
+                        </TableRowColumn>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardText>
+              <CardActions>
+                <FlatButton label='Upvote' onClick={() => this.votePost(post.id)}/>
+                <FlatButton label='Downvote' onClick={() => this.downVotePost(post.id)}/>
+                <FlatButton label='Delete' onClick={() => this.deletePost(post.id)}/>
+                <FlatButton label='Edit' onClick={() => this.editPost()}/>
+              </CardActions>
+            </Card>
+          }
+          <CommentForm parentId={post.id}></CommentForm>
+          <Dialog
+            title="Edit Post"
+            modal={false}
+            open={editPost}
+            onRequestClose={this.cancelEditPost}>
+            <PostForm editPost={editPost} cancelEditPost={this.cancelEditPost} updatePost={this.props.updatePost}/>
+          </Dialog>
+        </div>
+      )
+    } else {
+      return (
+        <div>This post has been deleted.</div>
+      )
+    }
   }
 }
 
