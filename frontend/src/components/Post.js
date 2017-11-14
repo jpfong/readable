@@ -123,7 +123,7 @@ class Post extends Component {
         }
         <CommentForm parentId={post.id}></CommentForm>
         <Dialog
-          title="Dialog With Actions"
+          title="Edit Post"
           modal={false}
           open={editPost}
           onRequestClose={this.cancelEditPost}>

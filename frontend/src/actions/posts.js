@@ -61,12 +61,12 @@ export const downVotePost = (post) => dispatch => (
       .then(posts => dispatch(votedPost(posts))))
 )
 
-export const createdPost = (posts) => ({
-  type: actionTypes.CREATE_POST,
-  posts
-})
-
 export const createPost = (data) => dispatch => (
   api.createPost(data).then(() => api.getPosts()
-    .then(posts => dispatch(createdPost(posts))))
+    .then(posts => dispatch(receivePosts(posts))))
+)
+
+export const updatePost = (post) => dispatch => (
+  api.updatePost(post).then(() => api.getPosts()
+    .then(posts => dispatch(receivePosts(posts))))
 )

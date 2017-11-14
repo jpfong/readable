@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
-import { fetchPosts, sortPosts, deletePost, votePost, downVotePost, fetchCategoryPosts } from '../actions/posts'
+import { fetchPosts, sortPosts, deletePost, votePost, downVotePost, fetchCategoryPosts, updatePost } from '../actions/posts'
+import { fetchPost } from '../actions/post'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostForm from './postForm'
 import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
 import {
   Table,
@@ -16,18 +19,33 @@ import {
 
 class RootPage extends Component {
 
+  state = {
+    editPost: false
+  }
+
   componentDidMount() {
     this.getPagePost()
   }
 
+  /*
   componentWillReceiveProps(nextProps) {
-    this.getPagePost(nextProps)
-  }
+    // this.getPagePost(nextProps)
+    // this.props.history.go(0)
+    if (nextProps && nextProps.match && nextProps.match.category !== this.props.match.params.category) {
+      this.props.getCategoryPosts(nextProps.match.params.category)
+    }
+  } */
 
-  getPagePost() {
+  getPagePost(nextProps) {
+    console.log('this.props', this.props)
     if (this.props.match) {
+      console.log('nextProps', this.props.match.params.category)
+      /*
+      if (nextProps && nextProps.match.category !== this.props.match.params.category) {
+        this.props.getCategoryPosts(this.props.match.params.category)
+      } */
       this.props.getCategoryPosts(this.props.match.params.category)
-    } else  {
+    } else {
       this.props.getPosts()
     }
   }
@@ -48,7 +66,18 @@ class RootPage extends Component {
     this.props.doDownVotePost(post)
   }
 
+  cancelEditPost = () => {
+    this.setState(() => ({ editPost: false }))
+  }
+
+  openEditPost(postId) {
+    this.props.getPost(postId).then(() => {
+      this.setState(() => ({ editPost: true }))
+    })
+  }
+
   render() {
+    const { editPost } = this.state
     const posts = this.props.posts
     return (
       <div>
@@ -63,6 +92,7 @@ class RootPage extends Component {
               <TableHeaderColumn>Timestamp</TableHeaderColumn>
               <TableHeaderColumn>Score</TableHeaderColumn>
               <TableHeaderColumn>Number of comments</TableHeaderColumn>
+              <TableHeaderColumn>Upvote</TableHeaderColumn>
               <TableHeaderColumn>Action</TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -75,9 +105,12 @@ class RootPage extends Component {
                   <TableRowColumn>{item.voteScore}</TableRowColumn>
                   <TableRowColumn>{item.commentCount}</TableRowColumn>
                   <TableRowColumn>
-                    <RaisedButton onClick={() => this.votePost(item)} label="Upvote"/>
-                    <RaisedButton onClick={() => this.downVotePost(item)} label="Downvote"/>
-                    <RaisedButton onClick={() => this.deletePost(item.id)} label="Delete"/>
+                    <FlatButton onClick={() => this.votePost(item)} label="Up"/>
+                    <FlatButton onClick={() => this.downVotePost(item)} label="Down"/>
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    <FlatButton onClick={() => this.openEditPost(item.id)} label="Edit"/>
+                    <FlatButton onClick={() => this.deletePost(item.id)} label="Delete"/>
                   </TableRowColumn>
                 </TableRow>
             ))}
@@ -86,6 +119,13 @@ class RootPage extends Component {
         <RaisedButton onClick={() => this.sortPost('date')} label='Sort by date'/>
         <RaisedButton onClick={() => this.sortPost('score')} label='Sort by score'/>
         <PostForm></PostForm>
+        <Dialog
+          title="Edit Post"
+          modal={false}
+          open={editPost}
+          onRequestClose={this.cancelEditPost}>
+          <PostForm editPost={editPost} cancelEditPost={this.cancelEditPost} updatePost={this.props.doUpdatePost}/>
+        </Dialog>
       </div>)
   }
 }
@@ -104,6 +144,8 @@ function mapDispatchToProps (dispatch) {
     doVotePost: (post) => dispatch(votePost((post))),
     doDownVotePost: (post) => dispatch(downVotePost(post)),
     getCategoryPosts: (category) => dispatch(fetchCategoryPosts(category)),
+    getPost: (postId) => dispatch(fetchPost(postId)),
+    doUpdatePost: (post) => dispatch(updatePost(post))
   }
 }
 
