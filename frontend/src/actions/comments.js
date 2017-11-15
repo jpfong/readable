@@ -37,3 +37,9 @@ export const addComment = (data) => dispatch => (
   api.createComment(data).then((comment) => api.getPostComments(comment.parentId)
     .then(comments => dispatch(updateComment(comments))))
 )
+
+export const updateCommentBody = (comment) => dispatch => (
+  api.updateCommentBody(comment).then((comment) =>
+    api.getPostComments(comment.parentId)
+      .then((comments) => dispatch(receiveComments(comments))))
+)

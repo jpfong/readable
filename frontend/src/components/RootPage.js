@@ -79,6 +79,7 @@ class RootPage extends Component {
   render() {
     const { editPost } = this.state
     const posts = this.props.posts
+
     return (
       <div>
         { this.props.match && this.props.match.params.category ? <h1>{this.props.match.params.category}</h1> : <h1>Home</h1>}

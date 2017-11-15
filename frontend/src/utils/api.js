@@ -111,3 +111,20 @@ export const updatePost = (data) =>
     },
     body: JSON.stringify(data)
   }).then(res => res.json())
+
+export const updateCommentBody = (comment) =>
+  fetch(`${url}/comments/${comment.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(comment)
+  }).then(res => res.json())
+
+export const getComment = (commentId) =>
+  fetch(`${url}/comments/${commentId}`, {
+    headers: {
+      ...headers
+    }
+  }).then(res => res.json())

@@ -15,6 +15,13 @@ class CommentForm extends Component {
     authorErrorText: ''
   }
 
+  componentDidMount() {
+    const { comment, editComment } = this.props
+    if (editComment && comment) {
+      this.setState({body: comment.body})
+    }
+  }
+
   handleBodyChange = (event, body) => {
     this.setState({body})
     if (body.length <= 0) {
@@ -43,48 +50,64 @@ class CommentForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    if (this.state.body && this.state.author) {
-      const comment = {
-        id: UUID.v4(),
-        timestamp: new Date().getTime(),
-        parentId: this.props.parentId,
-        ...this.state
-      }
-
-      this.props.addComment(comment).then(() => {
-        this.setState({
-          body: '',
-          author: ''
+    const { comment, editComment, updateComment, cancelEditComment } = this.props
+    if (editComment) {
+      if (this.state.body) {
+        comment.body = this.state.body
+        comment.timestamp = new Date().getTime()
+        updateComment(comment).then(() => {
+          this.setState({
+            body: '',
+            author: ''
+          })
+          cancelEditComment()
         })
-      }).catch((err) => {
-        console.error(err)
-      })
+      }
     } else {
-      if (this.state.body.length <= 0) {
-        this.setState({
-          bodyErrorText: 'This field is required'
+      if (this.state.body && this.state.author) {
+        const comment = {
+          id: UUID.v4(),
+          timestamp: new Date().getTime(),
+          parentId: this.props.parentId,
+          ...this.state
+        }
+
+        this.props.addComment(comment).then(() => {
+          this.setState({
+            body: '',
+            author: ''
+          })
+        }).catch((err) => {
+          console.error(err)
         })
       } else {
-        this.setState({
-          bodyErrorText: ''
-        })
-      }
-      if (this.state.author.length <= 0) {
-        this.setState({
-          authorErrorText: 'This field is required'
-        })
-      } else {
-        this.setState({
-          authorErrorText: ''
-        })
+        if (this.state.body.length <= 0) {
+          this.setState({
+            bodyErrorText: 'This field is required'
+          })
+        } else {
+          this.setState({
+            bodyErrorText: ''
+          })
+        }
+        if (this.state.author.length <= 0) {
+          this.setState({
+            authorErrorText: 'This field is required'
+          })
+        } else {
+          this.setState({
+            authorErrorText: ''
+          })
+        }
       }
     }
   }
 
   render() {
+    const { editComment } = this.props
     return (
       <Card>
-        <CardTitle title="Add a comment"/>
+        <CardTitle title={editComment ? 'Edit comment' : 'Add a comment'}/>
         <form onSubmit={this.handleSubmit}>
           <CardText>
             <TextField
@@ -92,23 +115,25 @@ class CommentForm extends Component {
               onChange={this.handleBodyChange}
               errorText={this.state.bodyErrorText}
               value={this.state.body}/><br />
-            <TextField
-              floatingLabelText="Author"
-              onChange={this.authorErrorText}
-              errorText={this.state.authorErrorText}
-              value={this.state.author}/><br />
+            {editComment ? '' :  <TextField
+                floatingLabelText="Author"
+                onChange={this.authorErrorText}
+                errorText={this.state.authorErrorText}
+                value={this.state.author}/>
+            } <br />
           </CardText>
           <CardActions>
-            <FlatButton label="Add Comment" type="submit"/>
+            <FlatButton label={editComment ? 'Edit comment' : 'Add a comment'} type="submit"/>
           </CardActions>
         </form>
       </Card>)
   }
 }
 
-function mapStateToProps ({comments}) {
+function mapStateToProps ({comments, comment}) {
   return {
-    comments
+    comments,
+    comment
   }
 }
 

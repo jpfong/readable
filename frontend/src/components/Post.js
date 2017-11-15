@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import { fetchPost, upvotePost, downVotePost, doUpdatePost } from '../actions/post'
 import { deletePost } from '../actions/posts'
-import { fetchComments, updateComments, doDeleteComment } from '../actions/comments'
+import { fetchComments, updateComments, doDeleteComment, updateCommentBody } from '../actions/comments'
+import { fetchComment } from '../actions/comment'
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
 import CommentForm from './CommentForm'
@@ -23,7 +24,8 @@ import {
 class Post extends Component {
   state = {
     loadingPost: true,
-    editPost: false
+    editPost: false,
+    editComment: false
   }
   componentDidMount() {
     this.setState(() => ({ loadingPost: true }))
@@ -69,10 +71,20 @@ class Post extends Component {
     this.setState(() => ({ editPost: false }))
   }
 
+  editComment(commentId) {
+    this.props.getCommentById(commentId).then(() => {
+      this.setState(() => ({ editComment: true }))
+    })
+  }
+
+  cancelEditComment = () => {
+    this.setState(() => ({ editComment: false }))
+  }
+
   render() {
     const post = this.props.post
     const comments = this.props.comments
-    const { loadingPost, editPost } = this.state
+    const { loadingPost, editPost, editComment } = this.state
 
     if (post.id) {
       return (
@@ -103,6 +115,7 @@ class Post extends Component {
                         <TableRowColumn>
                           <RaisedButton onClick={() => this.upvoteComment(comment)} label="Upvote"/>
                           <RaisedButton onClick={() => this.downVoteComment(comment)} label="Downvote"/>
+                          <RaisedButton onClick={() => this.editComment(comment.id)} label="Edit"/>
                           <RaisedButton onClick={() => this.deleteComment(comment)} label="Delete"/>
                         </TableRowColumn>
                       </TableRow>
@@ -120,11 +133,16 @@ class Post extends Component {
           }
           <CommentForm parentId={post.id}></CommentForm>
           <Dialog
-            title="Edit Post"
             modal={false}
             open={editPost}
             onRequestClose={this.cancelEditPost}>
             <PostForm editPost={editPost} cancelEditPost={this.cancelEditPost} updatePost={this.props.updatePost}/>
+          </Dialog>
+          <Dialog
+            modal={false}
+            open={editComment}
+            onRequestClose={this.cancelEditComment}>
+            <CommentForm editComment={editComment} cancelEditComment={this.cancelEditComment} updateComment={this.props.updateAComment}/>
           </Dialog>
         </div>
       )
@@ -136,10 +154,11 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps ({post, comments}) {
+function mapStateToProps ({post, comments, comment}) {
   return {
     post,
-    comments
+    comments,
+    comment
   }
 }
 
@@ -152,7 +171,9 @@ function mapDispatchToProps (dispatch) {
     deletePost: (postId) => dispatch(deletePost(postId)),
     votePost: (postId) => dispatch(upvotePost(postId)),
     downVotePost: (postId) => dispatch(downVotePost(postId)),
-    updatePost: (post) => dispatch(doUpdatePost(post))
+    updatePost: (post) => dispatch(doUpdatePost(post)),
+    updateAComment: (comment) => dispatch(updateCommentBody(comment)),
+    getCommentById: (commentId) => dispatch(fetchComment(commentId))
   }
 }
 

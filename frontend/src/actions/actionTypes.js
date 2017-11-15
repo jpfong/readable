@@ -15,3 +15,5 @@ export const SORT_POSTS = 'SORT_POSTS'
 export const VOTE_POST = 'VOTE_POST'
 export const CREATE_POST = 'CREATE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
+
+export const RECEIVE_COMMENT = 'RECEIVE_COMMENT'
