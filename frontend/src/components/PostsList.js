@@ -27,7 +27,6 @@ class RootPage extends Component {
   }
 
   getPagePost() {
-    console.log('this.props', this.props)
     if (this.props.match) {
       this.props.getCategoryPosts(this.props.match.params.category)
     } else {
@@ -104,9 +103,8 @@ class RootPage extends Component {
         </Table>
         <FlatButton onClick={() => this.sortPost('date')} label='Sort by date'/>
         <FlatButton onClick={() => this.sortPost('score')} label='Sort by score'/>
-        <PostForm></PostForm>
+        {this.props.match ? '' : <PostForm></PostForm>}
         <Dialog
-          title="Edit Post"
           modal={false}
           open={editPost}
           onRequestClose={this.cancelEditPost}>

@@ -48,7 +48,7 @@ class Categories extends Component {
             <MenuItem primaryText='Home'/>
           </Link>
           {categories.map((item) => (
-            <MenuItem onClick={() => this.goToCategory(item.name)}>{item.name}</MenuItem>
+            <MenuItem key={item.name} onClick={() => this.goToCategory(item.name)}>{item.name}</MenuItem>
             ))}
         </Drawer>
       </AppBar>
