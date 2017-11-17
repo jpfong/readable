@@ -27,23 +27,9 @@ class RootPage extends Component {
     this.getPagePost()
   }
 
-  /*
-  componentWillReceiveProps(nextProps) {
-    // this.getPagePost(nextProps)
-    // this.props.history.go(0)
-    if (nextProps && nextProps.match && nextProps.match.category !== this.props.match.params.category) {
-      this.props.getCategoryPosts(nextProps.match.params.category)
-    }
-  } */
-
-  getPagePost(nextProps) {
+  getPagePost() {
     console.log('this.props', this.props)
     if (this.props.match) {
-      console.log('nextProps', this.props.match.params.category)
-      /*
-      if (nextProps && nextProps.match.category !== this.props.match.params.category) {
-        this.props.getCategoryPosts(this.props.match.params.category)
-      } */
       this.props.getCategoryPosts(this.props.match.params.category)
     } else {
       this.props.getPosts()

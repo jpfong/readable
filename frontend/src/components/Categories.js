@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import { fetchCategories } from '../actions/categories'
+import { fetchCategoryPosts } from '../actions/posts'
 import { connect } from 'react-redux'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
 class Categories extends Component {
 
@@ -20,7 +22,14 @@ class Categories extends Component {
     this.props.fetchCategories()
   }
 
-  openDrawer = () => this.setState({open: !this.state.open});
+  openDrawer = () => this.setState({open: !this.state.open})
+
+  goToCategory(name) {
+    const { fetchCategoryPosts, history } = this.props
+    fetchCategoryPosts(name).then(() => {
+      history.push(`/${name}`)
+    })
+  }
 
   render() {
     const categories = this.props.categories
@@ -39,10 +48,8 @@ class Categories extends Component {
             <MenuItem primaryText='Home'/>
           </Link>
           {categories.map((item) => (
-            <Link to={'/'+ item.name } key={item.name}>
-              <MenuItem primaryText={item.name}/>
-            </Link>
-          ))}
+            <MenuItem onClick={() => this.goToCategory(item.name)}>{item.name}</MenuItem>
+            ))}
         </Drawer>
       </AppBar>
     )
@@ -50,13 +57,16 @@ class Categories extends Component {
 
 }
 
-function mapStateToProps ({categories}) {
+function mapStateToProps ({categories, posts}) {
   return {
-    categories
+    categories,
+    posts
   }
 }
 
-export default connect(
+const CategoriesList = withRouter(connect(
   mapStateToProps,
-  { fetchCategories }
-)(Categories)
+  { fetchCategories, fetchCategoryPosts }
+)(Categories))
+
+export default CategoriesList
