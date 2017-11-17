@@ -9,7 +9,6 @@ import CommentForm from './CommentForm'
 import PostForm from './postForm'
 import {Card, CardTitle, CardText, CardActions} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 
 import {
@@ -113,10 +112,10 @@ class Post extends Component {
                         <TableRowColumn>{comment.author}</TableRowColumn>
                         <TableRowColumn>{comment.voteScore}</TableRowColumn>
                         <TableRowColumn>
-                          <RaisedButton onClick={() => this.upvoteComment(comment)} label="Upvote"/>
-                          <RaisedButton onClick={() => this.downVoteComment(comment)} label="Downvote"/>
-                          <RaisedButton onClick={() => this.editComment(comment.id)} label="Edit"/>
-                          <RaisedButton onClick={() => this.deleteComment(comment)} label="Delete"/>
+                          <FlatButton onClick={() => this.upvoteComment(comment)} label="Upvote"/>
+                          <FlatButton onClick={() => this.downVoteComment(comment)} label="Downvote"/>
+                          <FlatButton onClick={() => this.editComment(comment.id)} label="Edit"/>
+                          <FlatButton onClick={() => this.deleteComment(comment)} label="Delete"/>
                         </TableRowColumn>
                       </TableRow>
                     ))}

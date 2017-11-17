@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import { Route } from 'react-router-dom'
-import RootPage from './RootPage'
+import PostsList from './PostsList'
 import Categories from './Categories'
 import Post from './Post'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -13,9 +13,9 @@ class App extends Component {
       <div>
         <Categories/>
         <Route exact path="/" render={() => (
-          <RootPage/>
+          <PostsList/>
         )}/>
-        <Route exact path="/:category" component={RootPage}/>
+        <Route exact path="/:category" component={PostsList}/>
         <Route exact path="/:category/:postId" component={Post}/>
       </div>
       </MuiThemeProvider>

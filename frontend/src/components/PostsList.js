@@ -4,7 +4,6 @@ import { fetchPost } from '../actions/post'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostForm from './postForm'
-import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
@@ -103,8 +102,8 @@ class RootPage extends Component {
             ))}
           </TableBody>
         </Table>
-        <RaisedButton onClick={() => this.sortPost('date')} label='Sort by date'/>
-        <RaisedButton onClick={() => this.sortPost('score')} label='Sort by score'/>
+        <FlatButton onClick={() => this.sortPost('date')} label='Sort by date'/>
+        <FlatButton onClick={() => this.sortPost('score')} label='Sort by score'/>
         <PostForm></PostForm>
         <Dialog
           title="Edit Post"

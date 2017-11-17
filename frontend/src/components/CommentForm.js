@@ -107,7 +107,7 @@ class CommentForm extends Component {
     const { editComment } = this.props
     return (
       <Card>
-        <CardTitle title={editComment ? 'Edit comment' : 'Add a comment'}/>
+        <CardTitle title={!editComment ? 'Add a comment' : ''}/>
         <form onSubmit={this.handleSubmit}>
           <CardText>
             <TextField
