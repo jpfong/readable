@@ -6,10 +6,9 @@ import Categories from './Categories'
 import Post from './Post'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-class App extends Component {
-  render() {
-    return (
-      <MuiThemeProvider>
+const App = () => {
+  return (
+    <MuiThemeProvider>
       <div>
         <Categories/>
         <Route exact path="/" render={() => (
@@ -18,9 +17,8 @@ class App extends Component {
         <Route exact path="/:category" component={PostsList}/>
         <Route exact path="/:category/:postId" component={Post}/>
       </div>
-      </MuiThemeProvider>
-    )
-  }
+    </MuiThemeProvider>
+  )
 }
 
 export default App
